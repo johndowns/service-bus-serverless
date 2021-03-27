@@ -25,6 +25,7 @@ var firehoseQueueName = 'firehose'
 var firehoseSubscriptionName = 'firehose'
 var deadLetterFirehoseQueueName = 'deadletteredfirehose'
 var processSubscriptionName = 'process'
+var topicSubscriptionFirehoseRuleName = 'AddTopicNameMetadata'
 
 // Deploy the Service Bus namespace.
 resource namespace 'Microsoft.ServiceBus/namespaces@2018-01-01-preview' = {
@@ -78,6 +79,18 @@ resource topicsSubscriptionFirehose 'Microsoft.ServiceBus/namespaces/topics/subs
   }
 }]
 
+resource topicSubscriptionFirehoseRule 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2018-01-01-preview' = [for topicName in topicNames: {
+  name: '${namespace.name}/${topicName}/${firehoseSubscriptionName}/${topicSubscriptionFirehoseRuleName}'
+  dependsOn: [
+    topicsSubscriptionFirehose
+  ]
+  properties: {
+    action: {
+      sqlExpression: 'SET OriginalTopicName = \'${topicName}\''
+    }
+  }
+}]
+
 // Deploy subscriptions for the primary processing of the messages coming into the topic, with dead-lettered messages automatically forwarded to the dead-letter firehose queue.
 resource topicsSubscriptionProcess 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2018-01-01-preview' = [for topicName in topicNames: {
   name: '${namespace.name}/${topicName}/${processSubscriptionName}'
@@ -90,7 +103,6 @@ resource topicsSubscriptionProcess 'Microsoft.ServiceBus/namespaces/topics/subsc
     maxDeliveryCount: processingMaxDeliveryCount
   }
 }]
-
 
 // Deploy authorization rules for our function apps to use.
 resource processorAuthorizationRule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2017-04-01' = {
