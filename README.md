@@ -2,10 +2,11 @@
 
 This sample illustrates one approach to work with a Service Bus-based messaging system using Azure Functions.
 
-Requirements:
+The sample has been built to follow some hypothetical requirements:
+
 * Use serverless technologies.
 * Store a copy of all messages into an immutable storage account.
-* Route all unprocessable (dead-lettered) messages to a single queue, and lg them to a Cosmos DB database for later analysis.
+* Route all unprocessable (dead-lettered) messages to a single queue, and log them to a Cosmos DB database for later analysis.
 
 ## Deployment and testing
 
