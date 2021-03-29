@@ -14,8 +14,8 @@ param serviceBusSkuName string = 'Standard'
 
 @description('An array specifying the names of topics that should be deployed.')
 param serviceBusTopicNames array = [
-  'sample1'
-  'sample2'
+  'new-order'
+  'new-customer'
 ]
 
 @description('The name of the Azure Storage account to deploy for the Azure Functions apps to use for metadata. This must be globally unique.')
