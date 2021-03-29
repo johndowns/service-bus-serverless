@@ -23,7 +23,7 @@ var firehoseAuthorizationRuleName = 'FirehoseFunction'
 var senderAuthorizationRuleName = 'SenderFunction'
 var firehoseQueueName = 'firehose'
 var firehoseSubscriptionName = 'firehose'
-var deadLetterFirehoseQueueName = 'deadletteredfirehose'
+var deadLetterFirehoseQueueName = 'deadletter-firehose'
 var processSubscriptionName = 'process'
 var topicSubscriptionFirehoseRuleName = 'AddTopicNameMetadata'
 
