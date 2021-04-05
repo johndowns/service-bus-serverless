@@ -86,6 +86,7 @@ resource function 'Microsoft.Web/sites/functions@2020-06-01' = {
     files: {
       'run.csx': '''
         using System;
+        using Microsoft.Extensions.Logging;
 
         public static void Run(
             string contentType,
@@ -101,7 +102,7 @@ resource function 'Microsoft.Web/sites/functions@2020-06-01' = {
             string to,
             IDictionary<string, object> userProperties,
             string message,
-            TraceWriter log,
+            ILogger log,
             out object deadLetterDocument)
         {
             deadLetterDocument = new {

@@ -57,6 +57,7 @@ resource topicFunction 'Microsoft.Web/sites/functions@2020-06-01' = [for service
     files: {
       'run.csx': '''
         using System;
+        using Microsoft.Extensions.Logging;
 
         private static readonly Random _random = new Random();  
 
@@ -65,9 +66,9 @@ resource topicFunction 'Microsoft.Web/sites/functions@2020-06-01' = [for service
             Int32 deliveryCount,
             DateTime enqueuedTimeUtc,
             string messageId,
-            TraceWriter log)
+            ILogger log)
         {
-            log.Info($"C# Service Bus trigger function processed message: {message}");
+            log.LogInformation($"C# Service Bus trigger function processed message: {message}");
 
             // Simulate occasional failures by failing to process a subset of messages.
             // Because the Service Bus subscription is configured with maxDeliveryAttempts of 1,
@@ -78,7 +79,7 @@ resource topicFunction 'Microsoft.Web/sites/functions@2020-06-01' = [for service
             }
             else
             {
-                log.Info($"Processing message with ID '{messageId}'.");
+                log.LogInformation($"Processing message with ID '{messageId}'.");
             }
         }
       '''

@@ -83,6 +83,7 @@ resource function 'Microsoft.Web/sites/functions@2020-06-01' = {
       'run.csx': '''
         #r "Newtonsoft.Json"
         using System;
+        using Microsoft.Extensions.Logging;
         using Newtonsoft.Json.Linq;
 
         public static void Run(
@@ -99,10 +100,10 @@ resource function 'Microsoft.Web/sites/functions@2020-06-01' = {
             string to,
             IDictionary<string, object> userProperties,
             string message,
-            TraceWriter log,
+            ILogger log,
             out string blobOutput)
         {
-            log.Info($"C# Service Bus trigger function processed message: {message}");
+            log.LogInformation($"C# Service Bus trigger function processed message: {message}");
 
             var logEntry = new {
               contentType = contentType,
